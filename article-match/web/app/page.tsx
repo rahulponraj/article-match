@@ -148,7 +148,9 @@ export default function Search() {
               <div className="grid gap-4 sm:grid-cols-2">
                 {top.map((r: any, i: number) => (
                   <article key={r.id} className="flex gap-3 rounded-lg border border-line bg-white p-3">
-                    <img src={imgUrl(r.photo_url)} alt={`${r.article} ${r.colour}`} className="h-28 w-24 rounded object-contain bg-paper" loading="lazy" />
+                    <a href={imgUrl(r.photo_url)} target="_blank" rel="noreferrer" title="Open full image">
+  <img src={imgUrl(r.photo_url)} alt={`${r.article} ${r.colour}`} className="h-36 w-28 rounded object-contain bg-paper" loading="lazy" />
+</a>
                     <div className="min-w-0 flex-1 text-sm">
                       <p className="text-2xl font-bold">{r.percent}%</p>
                       <p className="font-semibold">Article {r.article}</p>
@@ -162,10 +164,32 @@ export default function Search() {
                   </article>))}
               </div>
               {rest.length > 0 && (
-                <div className="overflow-x-auto rounded-lg border border-line bg-white">
-                  <table className="w-full text-left text-sm"><thead className="border-b border-line"><tr><th className="p-2">Article</th><th>Colour</th><th>Category</th><th>Match</th></tr></thead>
-                    <tbody>{rest.map((r: any) => <tr key={r.id} className="border-b border-line/60"><td className="p-2">{r.article}</td><td>{r.colour}</td><td>{r.category}</td><td>{r.percent}%</td></tr>)}</tbody></table>
-                </div>)}
+  <div>
+    <h2 className="mb-2 text-sm font-semibold">Other possible matches</h2>
+    <div className="overflow-x-auto rounded-lg border border-line bg-white">
+      <table className="w-full text-left text-sm">
+        <thead className="border-b border-line">
+          <tr><th className="p-2">Image</th><th>Article</th><th>Colour</th><th>Category</th><th>Match</th></tr>
+        </thead>
+        <tbody>
+          {rest.map((r: any) => (
+            <tr key={r.id} className="border-b border-line/60">
+              <td className="p-2">
+                <a href={imgUrl(r.photo_url)} target="_blank" rel="noreferrer" title="Open full image">
+                  <img src={imgUrl(r.photo_url)} alt={`${r.article} ${r.colour}`} loading="lazy"
+                       className="h-16 w-16 rounded border border-line bg-paper object-contain" />
+                </a>
+              </td>
+              <td className="font-semibold">{r.article}</td>
+              <td>{r.colour}</td>
+              <td>{r.category}</td>
+              <td>{r.percent}%</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </div>)}
             </>)}
         </section>
       </main>
