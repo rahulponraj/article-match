@@ -1,0 +1,16 @@
+# Local run:  docker compose up --build   (AI service on :7860, web on :3000)
+services:
+  ai-service:
+    build: ./ai-service
+    env_file: ./ai-service/.env
+    ports: ["7860:7860"]
+    restart: unless-stopped
+  web:
+    image: node:20-alpine
+    working_dir: /app
+    volumes: ["./web:/app"]
+    env_file: ./web/.env.local
+    environment: { AI_SERVICE_URL: "http://ai-service:7860" }
+    command: sh -c "npm install && npm run dev"
+    ports: ["3000:3000"]
+    depends_on: [ai-service]
