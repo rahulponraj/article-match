@@ -150,7 +150,7 @@ export default function Search() {
                   <article key={r.id} className="flex gap-3 rounded-lg border border-line bg-white p-3">
                     <a href={imgUrl(r.photo_url)} target="_blank" rel="noreferrer" title="Open full image">
   <img src={imgUrl(r.photo_url)} alt={`${r.article} ${r.colour}`} className="h-36 w-28 rounded object-contain bg-paper" loading="lazy" />
-</a>
+</a>               
                     <div className="min-w-0 flex-1 text-sm">
                       <p className="text-2xl font-bold">{r.percent}%</p>
                       <p className="font-semibold">Article {r.article}</p>

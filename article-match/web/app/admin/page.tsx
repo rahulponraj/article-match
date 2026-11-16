@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import Nav from "@/components/Nav";
+import AiSettings from "@/components/AiSettings";
 import { supabase, authFetch } from "@/lib/supabase";
 import { useProfile } from "@/lib/useProfile";
 
@@ -41,6 +42,7 @@ export default function Admin() {
     <>
       <Nav role={profile.role} email={profile.email} />
       <main className="mx-auto max-w-6xl space-y-8 px-4 py-8">
+        <AiSettings />
         <section>
           <h1 className="text-xl font-bold">Inventory index</h1>
           <p className="mt-1 text-sm text-ink/70">{stats.indexed ?? 0} of {stats.total ?? 0} products indexed.</p>

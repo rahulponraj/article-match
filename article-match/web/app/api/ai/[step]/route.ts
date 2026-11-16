@@ -11,10 +11,13 @@ export async function POST(req: Request, { params }: { params: { step: string } 
       ? { method: "POST", headers: { "content-type": "application/json" }, body: await req.text() }
       : { method: "POST", body: await req.formData() };
     const r = await ai(`/${step}`, init);
-    const body = await r.json().catch(() => ({ error: "AI service returned an invalid response" }));
-    return NextResponse.json(r.ok ? body : { error: body.detail || body.error || "AI service error" }, { status: r.status });
+    const text = await r.text();
+    let body: any = null;
+    try { body = JSON.parse(text); } catch {}
+    if (!body) return NextResponse.json({ error: `AI service replied ${r.status} with a non-JSON body: ${text.slice(0, 150)}` }, { status: 502 });
+    return NextResponse.json(r.ok ? body : { error: typeof body.detail === "string" ? body.detail : body.error || "AI service error" }, { status: r.status });
   } catch (e) {
     if (e instanceof Response) return e;
-    return NextResponse.json({ error: "AI service unreachable. Check AI_SERVICE_URL." }, { status: 502 });
+    return NextResponse.json({ error: "AI service unreachable. An admin can fix the address under Admin > AI service connection." }, { status: 502 });
   }
 }
